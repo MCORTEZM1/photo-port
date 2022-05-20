@@ -1,29 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { capitalizeFirstLetter } from "../../utils/helpers";
 
-const categories = [
-    {
-        name: 'commercial',
-        description: 'Photos of grocery stores, food trucks, and other commercial projects',
-    },
-    { 
-        name: 'portraits', 
-        description: 'Portraits of people in my life' 
-    },
-    { 
-        name: 'food', 
-        description: 'Delicious delicacies'
-    },
-    {
-        name: 'landscape', description: 'Fields, farmhouses, waterfalls, and the beauty of nature'
-    },
-];
+function Nav(props) { 
+    const {
+        categories = [],
+        setCurrentCategory,
+        currentCategory,
+    } = props;
 
-
-function Nav() { 
-    function categorySelected(name) {
-        console.log(`${name} clicked`);
-    }
+    // first argument is call back function
+    // second argument directs the hook to re-render the component on changes to the value of this state.
+    // i.e if currentCategory changes, the component will be re-rendered so the changes to document.title will be seen.
+    useEffect(() => {
+        document.title = capitalizeFirstLetter(currentCategory.name);
+    }, [currentCategory]);
 
     return (
         <header data-testid="header" className="flex-row px-1">
@@ -39,18 +29,20 @@ function Nav() {
                             About me
                         </a>
                     </li>
-                    <li>
+                    <li className='mx-2'>
                         <span>Contact</span>
                     </li>
                     {/* You should always only return a single JSX element, like a REACT component. */}
                     {categories.map((category) => (
                         <li
-                            className='mx-1'
-                            // object keys and primary/foreign keys used to uniquely 
-                            // identify properties or items in a database
+                            // currentCategory.name === category.name will get evaluated, and as long as it is true, then the second bit of the short circuit, navActive, will be returned.
+                            className={`mx-1 ${currentCategory.name === category.name && 'navActive'}`}
+                            // object keys and primary/foreign keys used to uniquely identify properties or items in a database
                             key={category.name}
                         >
-                            <span onClick={() => categorySelected(category.name)} >
+                            <span onClick={() => {
+                                setCurrentCategory(category)
+                            }} >
                                 {capitalizeFirstLetter(category.name)}
                             </span>
                         </li>
