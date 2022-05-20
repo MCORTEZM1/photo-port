@@ -9,9 +9,9 @@ function App() {
   return (
     // must always return a single JSX element, however this element may have many children
     <div>
-      <Nav></Nav>
+      <Nav />
       <main>
-        <About/>
+        <About />
       </main>
     </div>
   );

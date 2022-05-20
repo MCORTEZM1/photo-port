@@ -1,22 +1,24 @@
 import React from 'react';
+import { capitalizeFirstLetter } from "../../utils/helpers";
 
 const categories = [
     {
-        name: 'Commercial',
+        name: 'commercial',
         description: 'Photos of grocery stores, food trucks, and other commercial projects',
     },
     { 
-        name: 'Portraits', 
+        name: 'portraits', 
         description: 'Portraits of people in my life' 
     },
     { 
-        name: 'Food', 
+        name: 'food', 
         description: 'Delicious delicacies'
     },
     {
-        name: 'Landscape', description: 'Fields, farmhouses, waterfalls, and the beauty of nature'
+        name: 'landscape', description: 'Fields, farmhouses, waterfalls, and the beauty of nature'
     },
 ];
+
 
 function Nav() { 
     function categorySelected(name) {
@@ -24,7 +26,7 @@ function Nav() {
     }
 
     return (
-        <header>
+        <header data-testid="header" className="flex-row px-1">
             <h2>
                 <a href='/'>
                     <span role='img' aria-label='camera'>📸</span> Oh Snap!
@@ -46,10 +48,10 @@ function Nav() {
                             className='mx-1'
                             // object keys and primary/foreign keys used to uniquely 
                             // identify properties or items in a database
-                            key= {category.name}
+                            key={category.name}
                         >
                             <span onClick={() => categorySelected(category.name)} >
-                                {category.name}
+                                {capitalizeFirstLetter(category.name)}
                             </span>
                         </li>
                     ))}
