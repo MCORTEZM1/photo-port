@@ -9,40 +9,47 @@ function App() {
   // lifted categories from Nav to app, to pass as props to components.
   const [categories] = useState([
     {
-        name: 'commercial',
-        description: 'Photos of grocery stores, food trucks, and other commercial projects',
-    },
-    { 
-        name: 'portraits', 
-        description: 'Portraits of people in my life' 
-    },
-    { 
-        name: 'food', 
-        description: 'Delicious delicacies'
+      name: 'commercial',
+      description: 'Photos of grocery stores, food trucks, and other commercial projects',
     },
     {
-        name: 'landscape', description: 'Fields, farmhouses, waterfalls, and the beauty of nature'
+      name: 'portraits',
+      description: 'Portraits of people in my life'
     },
-]);
+    {
+      name: 'food',
+      description: 'Delicious delicacies'
+    },
+    {
+      name: 'landscape', description: 'Fields, farmhouses, waterfalls, and the beauty of nature'
+    },
+  ]);
 
-const [ currentCategory, setCurrentCategory ] = useState(categories[0]); 
+  const [currentCategory, setCurrentCategory] = useState(categories[0]);
+  // conditionally render contact form with useState.
+  const [contactSelected, setContactSelected] = useState(false);
 
   // returns JSX; which can represent HTML in javascript. consider it as document.createElement(JSX) behind the scenes. 
   return (
     // must always return a single JSX element, however this element may have many children
     <div>
-      <Nav 
+      <Nav
         // pass category as prop to Nav component. New props cause components to re-render.
-        categories= {categories}
+        categories={categories}
         setCurrentCategory={setCurrentCategory}
         currentCategory={currentCategory}
+        contactSelected={contactSelected}
+        setContactSelected={setContactSelected}
       />
       <main>
-        <ContactForm />
-        <Gallery  
-          currentCategory={currentCategory}
-        />
-        <About />
+        {!contactSelected ? (
+          <>
+            <Gallery currentCategory={currentCategory} />
+            <About />
+          </>
+        ) : (
+          <ContactForm />  
+        )}
       </main>
     </div>
   );
