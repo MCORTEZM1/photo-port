@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import Modal from '../Modal'
+import Modal from '../Modal'
 
 function PhotoList({ category }) {
 
@@ -103,9 +103,22 @@ function PhotoList({ category }) {
     // if a photo matches the condition, it is return in an array called currentPhotos.
     // we can then map through currentPhotos to render each photo that matches the category
     const currentPhotos = photos.filter((photo) => photo.category === category);
+    
+    // use hook to conditionally render the modal based on whether an image was clicked.
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // use hook to determine which image is clicked to toggleModal and apply data
+    const [currentPhoto, setCurrentPhoto] = useState();
+    const toggleModal = (image, i) => {
+        // current photo
+        setCurrentPhoto({...image, index: i})
+        // pass !isModalOpen, to alternate between true and false when this function is called
+        setIsModalOpen(!isModalOpen);
+    }
+    
     return (
         <div>
+           {isModalOpen && <Modal currentPhoto={currentPhoto} onClose={toggleModal} />}
             <div className="flex-row">
                 {currentPhotos.map((image, i) => (
                     <img
@@ -117,6 +130,7 @@ function PhotoList({ category }) {
                         // alt is used for accessibility user-assistance devices like screen readers.
                         alt={image.name}
                         className='img-thumbnail mx-1'
+                        onClick={() => toggleModal(image, i)}
                         // key must be a unique string, absence will cause err message.
                         key={image.name}
                     />
